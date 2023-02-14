@@ -85,7 +85,7 @@
 
        .stats span{
 
-        font-size: 29px;
+        font-size: 10px;
        }
 </style>
 </head>
@@ -104,7 +104,7 @@
 
       <div class="mt-5 text-center">
         <h4 class="mb-0" th:text="${current_user.fullname}"></h4>
-        <span class="text-muted d-block mb-2">Los Angles</span>
+        <span class="text-muted d-block mb-2"></span>
 <!--        <button class="btn btn-primary btn-sm follow">Follow</button>
 -->
          <div
@@ -117,12 +117,12 @@
 
           <div class="stats">
             <h6 class="mb-0">Registered</h6>
-            <span>142</span>
+            <span th:text="${current_user.createdAt}"></span>
           </div>
 
           <div class="stats">
             <h6 class="mb-0">Updated</h6>
-            <span>129</span>
+            <span th:text="${current_user.updatedAt}"></span>
           </div>
 
         </div>
