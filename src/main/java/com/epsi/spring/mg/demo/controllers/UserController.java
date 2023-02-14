@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,9 +27,10 @@ public class UserController {
                 .setDob(LocalDateTime.parse("2000-08-08T00:00:00"));
     }
 
-    @GetMapping(CommonConstant.ROUTE_SHOW)   // => /users/show
+    @GetMapping(CommonConstant.ROUTE_SHOW)   // => /users/120/show
     //@RequestMapping(method = RequestMethod.GET, path = CommonConstant.ROUTE_SHOW)	// Base of @GetMapping(...)
-    public String viewProfil(Model model) {
+    public String viewProfil(Model model, @PathVariable("id") long id) {
+        // list<User> ??? id ?
         model.addAttribute(USER_MODEL, this.currentUser);
         return "users/profil";
     }
