@@ -1,8 +1,6 @@
 package com.epsi.spring.mg.demo.controllers;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,32 +10,40 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.epsi.spring.mg.demo.models.User;
+import com.epsi.spring.mg.demo.entities.User;
+import com.epsi.spring.mg.demo.repositories.UserRepository;
 
 @Controller
 @RequestMapping("/users")		// Prefix Path by /users/....
 public class UserController {
 
-    public static final String USER_MODEL = "current_user";
-    public static final String USERS_MODEL = "users";
+    public static final String MODEL_ONE = "current_user";
+    public static final String MODEL_ALL = "users";
 
     //private User currentUser;
-    private ArrayList<User> users = new ArrayList<>();
+    //private ArrayList<User> users = new ArrayList<>();
+    private UserRepository repo;
 
-    public UserController() {
-        users.add(new User()
+    public UserController(UserRepository repo) {
+        this.repo = repo;
+
+        this.repo.save(new User()
                 .setFirstname("Mickael")
                 .setLastname("Gaillard")
-                .setDob(LocalDateTime.parse("2000-08-08T00:00:00"))
-                .setId(1));
-        users.add(new User().setFirstname("David").setLastname("Cuomo").setId(2));
-        users.add(new User().setFirstname("Florian").setLastname("Sibois").setId(3));
-        users.add(new User().setFirstname("Antoine").setLastname("Castel").setId(4));
+                .setDob(LocalDateTime.parse("2000-08-08T00:00:00")));
+//        users.add(new User()
+//                .setFirstname("Mickael")
+//                .setLastname("Gaillard")
+//                .setDob(LocalDateTime.parse("2000-08-08T00:00:00"))
+//                .setId(1));
+//        users.add(new User().setFirstname("David").setLastname("Cuomo").setId(2));
+//        users.add(new User().setFirstname("Florian").setLastname("Sibois").setId(3));
+//        users.add(new User().setFirstname("Antoine").setLastname("Castel").setId(4));
     }
 
     @GetMapping(CommonConstant.ROUTE_ALL)
     public String showAll(Model model) {
-        model.addAttribute(USERS_MODEL, users);
+        model.addAttribute(MODEL_ALL, this.repo.findAll());
 
         return "users/list";
     }
@@ -49,7 +55,7 @@ public class UserController {
         User userFinded = this.findUserById(id);
 
         if (userFinded != null) {
-            model.addAttribute(USER_MODEL, userFinded);
+            model.addAttribute(MODEL_ONE, userFinded);
         }
 
         return "users/profil";
@@ -64,12 +70,12 @@ public class UserController {
     private User findUserById(long id) {
         User userFinded = null;
         // Foreach
-        for (User user : this.users) {
-            if (user.getId() == id) {
-                userFinded = user;
-                break;
-            }
-        }
+//        for (User user : this.users) {
+//            if (user.getId() == id) {
+//                userFinded = user;
+//                break;
+//            }
+//        }
 //      // Use For
 //      for (int i = 0; i <= users.size() - 1; i++) {
 //      	User user = users.get(i);
@@ -88,7 +94,7 @@ public class UserController {
     public String editUser(Model model, @PathVariable("id") long id) {
         User userFinded = this.findUserById(id);
 
-        model.addAttribute(USER_MODEL, userFinded);
+        model.addAttribute(MODEL_ONE, userFinded);
         return "users/form";
     }
 

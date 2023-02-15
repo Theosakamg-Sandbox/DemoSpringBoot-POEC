@@ -3,7 +3,7 @@ package com.epsi.spring.mg.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.epsi.spring.mg.demo.models.User;
+import com.epsi.spring.mg.demo.entities.User;
 
 @SpringBootApplication
 public class DemoApplication {
