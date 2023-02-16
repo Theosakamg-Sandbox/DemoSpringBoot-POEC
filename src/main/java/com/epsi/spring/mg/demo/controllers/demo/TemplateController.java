@@ -1,4 +1,4 @@
-package com.epsi.spring.mg.demo.controllers;
+package com.epsi.spring.mg.demo.controllers.demo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +28,13 @@ public class TemplateController {
                 .setName("MySuperBook")
                 .setIsbn("666");
         model.addAttribute("new_book", book);
-        return "form";
+        return "demo/form";
     }
 
     @PostMapping("/form-submit")
     public String formSubmit(@ModelAttribute Book bookCompleted, Model model) {
         //System.out.println(bookCompleted.toString());
         model.addAttribute("new_book", bookCompleted);
-        return "form";
+        return "demo/form";
     }
 }

@@ -1,7 +1,6 @@
 package com.epsi.spring.mg.demo.controllers;
 
-import java.time.LocalDateTime;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,26 +19,8 @@ public class UserController {
     public static final String MODEL_ONE = "current_user";
     public static final String MODEL_ALL = "users";
 
-    //private User currentUser;
-    //private ArrayList<User> users = new ArrayList<>();
+    @Autowired
     private UserRepository repo;
-
-    public UserController(UserRepository repo) {
-        this.repo = repo;
-
-        this.repo.save(new User()
-                .setFirstname("Mickael")
-                .setLastname("Gaillard")
-                .setDob(LocalDateTime.parse("2000-08-08T00:00:00")));
-//        users.add(new User()
-//                .setFirstname("Mickael")
-//                .setLastname("Gaillard")
-//                .setDob(LocalDateTime.parse("2000-08-08T00:00:00"))
-//                .setId(1));
-//        users.add(new User().setFirstname("David").setLastname("Cuomo").setId(2));
-//        users.add(new User().setFirstname("Florian").setLastname("Sibois").setId(3));
-//        users.add(new User().setFirstname("Antoine").setLastname("Castel").setId(4));
-    }
 
     @GetMapping(CommonConstant.ROUTE_ALL)
     public String showAll(Model model) {
@@ -52,7 +33,7 @@ public class UserController {
     @GetMapping(CommonConstant.ROUTE_SHOW)   // => /users/120/show
     //@RequestMapping(method = RequestMethod.GET, path = CommonConstant.ROUTE_SHOW)	// Base of @GetMapping(...)
     public String viewProfil(Model model, @PathVariable("id") long id) {
-        User userFinded = this.findUserById(id);
+        User userFinded = this.repo.findById(id).orElse(new User());
 
         if (userFinded != null) {
             model.addAttribute(MODEL_ONE, userFinded);

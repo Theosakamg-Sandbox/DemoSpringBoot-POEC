@@ -1,4 +1,4 @@
-package com.epsi.spring.mg.demo.entities;
+package com.epsi.spring.mg.demo.entities.demo;
 
 import java.util.List;
 
